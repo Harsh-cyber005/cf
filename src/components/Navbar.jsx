@@ -91,8 +91,9 @@ function Navbar({ menu, setMenu, sopen, setSopen}) {
                 <div onClick={(e) => {
                     e.stopPropagation()
                 }} className='relative lg:hidden flex justify-end max-w-max md:w-1/3 cursor-pointer z-10'>
-                    <button onClick={()=>{
+                    <button onClick={(e)=>{
                         setSopen(!sopen)
+                        setMenu(false)
                     }} className=' mr-4 md:hidden flex active:opacity-35 active:scale-90'>
                         <img src={searchicon} alt='search' className='h-[25px]'/>
                     </button>
@@ -102,7 +103,7 @@ function Navbar({ menu, setMenu, sopen, setSopen}) {
                         <img src={menudark} alt="Menu" className='h-[25px]' />
                     </button>
                     <ul className={`absolute shadow-2xl bg-[#42437D] bottom-0 right-0  translate-y-[100%] ${menu ? "opacity-[100%] w-[200px]" : "opacity-0 w-0"} duration-200 border-t-2 border-t-indigo-400`}>
-                        <li className='px-4 py-2 w-full hover:bg-[#6e6fa9]'><a href='/' className=' cursor-pointer'><span className=''>CodeForces</span></a></li>
+                        <li className='px-4 py-2 w-full hover:bg-[#6e6fa9]'><a href='/' className=' cursor-pointer'><span className=''>Home</span></a></li>
                         <li className='px-4 py-2 w-full hover:bg-[#6e6fa9]'><a href='' className=' cursor-pointer'><span className=''>About</span></a></li>
                         <li className='px-4 py-2 w-full hover:bg-[#6e6fa9]'><a target='_blank' href='https://codeforces.com/' className='cursor-pointer'><span className=''>CodeForces</span></a></li>
                         <li onMouseOver={() => {
