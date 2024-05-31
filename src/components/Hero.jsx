@@ -1,8 +1,8 @@
 import React from 'react'
 
-function Hero() {
+function Hero({sopen}) {
   return (
-    <div className='bg-[#171749] h-auto min-h-[calc(100%-70px)] w-full'>
+    <div className={`absolute bg-[#171749] h-auto ${sopen?"md:min-h-[calc(100%-70px)] min-h-[calc(100%-140px)]":"min-h-[calc(100%-70px)]"} w-screen`}>
         
     </div>
   )

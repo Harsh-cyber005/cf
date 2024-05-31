@@ -2,9 +2,11 @@ import React, { useEffect } from 'react'
 import codeforces from "../assets/codeforces.png"
 import menudark from "../assets/menu-dark.png"
 import downarrow from "../assets/down-arrow.png"
+import searchicon from "../assets/search.png"
 import DropAlert from './DropAlert'
+import SearchBar from './SearchBar'
 
-function Navbar({ menu, setMenu }) {
+function Navbar({ menu, setMenu, sopen, setSopen}) {
     const [dropdown, setDropdown] = React.useState(false)
     const [submenu, setSubmenu] = React.useState(false)
     const [open, setOpen] = React.useState(false)
@@ -16,9 +18,6 @@ function Navbar({ menu, setMenu }) {
         setEmpty(false)
         setS(`https://codeforces.com/api/user.info?handles=${search}&checkHistoricHandles=false`)
     }, [search])
-    useEffect(() => {
-        console.log("s=", s);
-    }, [s])
     useEffect(() => {
         console.log("data=", data)
     }, [data])
@@ -49,7 +48,7 @@ function Navbar({ menu, setMenu }) {
         })
     }
     return (
-        <>
+        <div className='relative'>
             <nav className=' h-[70px] bg-[#2D2E5B] text-white flex justify-between items-center px-2 pr-5 shadow-2xl'>
                 <div className=' flex justify-start items-center font-semibold md:max-w-max lg:w-1/3'>
                     <img src={codeforces} alt="Codeforces" className='h-[70px]' />
@@ -91,13 +90,18 @@ function Navbar({ menu, setMenu }) {
                 </div>
                 <div onClick={(e) => {
                     e.stopPropagation()
-                }} className='relative lg:hidden flex justify-end max-w-max md:w-1/3 cursor-pointer z-0'>
+                }} className='relative lg:hidden flex justify-end max-w-max md:w-1/3 cursor-pointer z-10'>
+                    <button onClick={()=>{
+                        setSopen(!sopen)
+                    }} className=' mr-4 md:hidden flex active:opacity-35 active:scale-90'>
+                        <img src={searchicon} alt='search' className='h-[25px]'/>
+                    </button>
                     <button onClick={() => {
                         setMenu(!menu)
-                    }} className=''>
+                    }} className='active:opacity-35 active:scale-90'>
                         <img src={menudark} alt="Menu" className='h-[25px]' />
                     </button>
-                    <ul className={`absolute shadow-2xl bg-[#42437D] bottom-0 left-0 translate-x-[calc(-100%+25px)] translate-y-[100%] ${menu ? "opacity-[100%] w-[200px]" : "opacity-0 w-0"} duration-200 border-t-2 border-t-indigo-400 z-40`}>
+                    <ul className={`absolute shadow-2xl bg-[#42437D] bottom-0 right-0  translate-y-[100%] ${menu ? "opacity-[100%] w-[200px]" : "opacity-0 w-0"} duration-200 border-t-2 border-t-indigo-400`}>
                         <li className='px-4 py-2 w-full hover:bg-[#6e6fa9]'><a href='/' className=' cursor-pointer'><span className=''>CodeForces</span></a></li>
                         <li className='px-4 py-2 w-full hover:bg-[#6e6fa9]'><a href='' className=' cursor-pointer'><span className=''>About</span></a></li>
                         <li className='px-4 py-2 w-full hover:bg-[#6e6fa9]'><a target='_blank' href='https://codeforces.com/' className='cursor-pointer'><span className=''>CodeForces</span></a></li>
@@ -105,27 +109,36 @@ function Navbar({ menu, setMenu }) {
                             setSubmenu(true)
                         }} onMouseOut={() => {
                             setSubmenu(false)
+                        }} onClick={()=>{
+                            setSubmenu(!submenu)
                         }} className='px-4 py-2 w-full hover:bg-[#6e6fa9] flex justify-between items-center'>
                             <a className='cursor-pointer'>Options</a>
                             <img className={`h-[20px] ${submenu ? "rotate-[180deg]" : "rotate-0"} duration-200`} src={downarrow} alt='downarrow' />
                         </li>
-                        {submenu && <ul onMouseOver={() => {
+                        {<div onMouseOver={() => {
                             setSubmenu(true)
                         }} onMouseOut={() => {
                             setSubmenu(false)
-                        }} onClick={() => {
-                            setSubmenu(!submenu)
-                        }} className={`absolute shadow-2xl bg-[#42437D] bottom-0 translate-y-[100%] duration-200 border-t-2 border-t-indigo-400 -z-20 w-full`}>
-                            <li className='px-4 py-2 w-full hover:bg-[#6e6fa9]'><a className=' cursor-pointer'><span className=''>Top 100 users</span></a></li>
-                            <li className='px-4 py-2 w-full hover:bg-[#6e6fa9]'><a className=' cursor-pointer'><span className=''>Top 1000 users</span></a></li>
-                            <li className='px-4 py-2 w-full hover:bg-[#6e6fa9]'><a className='cursor-pointer'><span className=''>Top 10000 users</span></a></li>
-                            <li className='px-4 py-2 w-full hover:bg-[#6e6fa9]'><a className='cursor-pointer'><span className=''>Top IIT KGP users</span></a></li>
-                        </ul>}
+                        }} className={`absolute shadow-2xl bg-[#42437D] bottom-0 translate-y-[100%] duration-200 border-t-2 border-t-indigo-400 -z-20 w-full ${submenu?"h-full opacity-[100%]":"h-0 opacity-0"} ${menu?"":"text-[0px]"}`}>
+                            <div onMouseOver={(e)=>{
+                                if(!submenu){e.stopPropagation()}
+                            }} className='px-4 py-2 w-full hover:bg-[#6e6fa9]'><a className=' cursor-pointer'><span className=''>Top 100 users</span></a></div>
+                            <div onMouseOver={(e)=>{
+                                if(!submenu){e.stopPropagation()}
+                            }} className='px-4 py-2 w-full hover:bg-[#6e6fa9]'><a className=' cursor-pointer'><span className=''>Top 1000 users</span></a></div>
+                            <div onMouseOver={(e)=>{
+                                if(!submenu){e.stopPropagation()}
+                            }} className='px-4 py-2 w-full hover:bg-[#6e6fa9]'><a className='cursor-pointer'><span className=''>Top 10000 users</span></a></div>
+                            <div onMouseOver={(e)=>{
+                                if(!submenu){e.stopPropagation()}
+                            }} className='px-4 py-2 w-full hover:bg-[#6e6fa9]'><a className='cursor-pointer'><span className=''>Top IIT KGP users</span></a></div>
+                        </div>}
                     </ul>
                 </div>
             </nav>
+            <SearchBar sopen={sopen} setSearch={setSearch} searchUser={searchUser}/>
             <DropAlert bgcolor="bg-red-600" slidercolor="bg-red-800" slidecolor="bg-[#c45a5a]" text="Search Field Required" setOpen={setOpen} open={open} />
-        </>
+        </div>
     )
 }
 
